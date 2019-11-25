@@ -1282,7 +1282,17 @@ static void adjust_ed(void)
   }
 }
 #endif
-
+// 矢量网络分析仪十二项误差校正模型理论推导
+// m -> measure
+// o -> open
+// s -> short
+// E -> Error
+// Ed -> directivity
+// Es -> source match
+// Er -> refrection tracking
+// 
+// S'11ml = Ed -> load 
+//
 // S'11mo = S11mo-Ed =  Er/(1-Es) = a; Es = 1-Er/a
 // S'11ms = S11ms-Ed = -Er/(1+Es) = b; Es = -Er/b-1
 // Es = (a+b)/(a-b)
