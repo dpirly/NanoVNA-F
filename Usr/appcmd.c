@@ -105,28 +105,28 @@ available. */
     #define configCLI_BAUD_RATE     115200
 #endif
 
-// æ¸…é™¤å±å¹•
+// Çå³ıÆÁÄ»
 #define CLEAR()             dbprintf("\033[2J")
-// ä¸Šç§»å…‰æ ‡  
+// ÉÏÒÆ¹â±ê  
 #define MOVEUP(x)           dbprintf("\033[%dA", (x))
-// ä¸‹ç§»å…‰æ ‡  
+// ÏÂÒÆ¹â±ê  
 #define MOVEDOWN(x)         dbprintf("\033[%dB", (x))
-// å·¦ç§»å…‰æ ‡  
+// ×óÒÆ¹â±ê  
 #define MOVELEFT(y)         dbprintf("\033[%dD", (y))
-// å³ç§»å…‰æ ‡  
+// ÓÒÒÆ¹â±ê  
 #define MOVERIGHT(y)        dbprintf("\033[%dC",(y))
-// å®šä½å…‰æ ‡  
+// ¶¨Î»¹â±ê  
 #define MOVETO(x,y)         dbprintf("\033[%d;%dH", (x), (y))
-// å…‰æ ‡å¤ä½  
+// ¹â±ê¸´Î»  
 #define RESET_CURSOR()      dbprintf("\033[H")
-// éšè—å…‰æ ‡  
+// Òş²Ø¹â±ê  
 #define HIDE_CURSOR()       dbprintf("\033[?25l")
-// æ˜¾ç¤ºå…‰æ ‡  
+// ÏÔÊ¾¹â±ê  
 #define SHOW_CURSOR()       dbprintf("\033[?25h")
-// åæ˜¾
+// ·´ÏÔ
 #define HIGHT_LIGHT()       dbprintf("\033[7m")
 #define UN_HIGHT_LIGHT()    dbprintf("\033[27m")
-// æ¸…é™¤ä¸€è¡Œ
+// Çå³ıÒ»ĞĞ
 #define CLEAR_LINE()        dbprintf("\033[K")
 
 /*-----------------------------------------------------------*/
@@ -187,13 +187,13 @@ void cmd_loop( void *pvParameters )
     INCLUDE_vTaskSuspend is not set to 1 - in which case portMAX_DELAY will
     be a genuine block time rather than an infinite block time. */
 /*
-é˜»å¡è¶…æ—¶æ—¶é—´ã€‚
-ï¼ˆ1ï¼‰å¦‚æœåœ¨æ¥æ”¶æ—¶é˜Ÿåˆ—ä¸ºç©ºï¼Œåˆ™è¿™ä¸ªæ—¶é—´æ˜¯ä»»åŠ¡å¤„äºé˜»å¡çŠ¶æ€ä»¥ç­‰å¾…é˜Ÿåˆ—æ•°æ®æœ‰æ•ˆçš„æœ€é•¿ç­‰å¾…æ—¶é—´ã€‚
-ï¼ˆ2ï¼‰å¦‚æœxTicksToWait è®¾ä¸º0ï¼Œå¹¶ä¸”é˜Ÿåˆ—ä¸ºç©ºï¼Œåˆ™xQueueRecieve()ä¸xQueuePeek()å‡ä¼šç«‹å³è¿”å›ã€‚
-     é˜»å¡æ—¶é—´æ˜¯ä»¥ç³»ç»Ÿå¿ƒè·³å‘¨æœŸä¸ºå•ä½çš„ï¼Œæ‰€ä»¥ç»å¯¹æ—¶é—´å–å†³äºç³»ç»Ÿå¿ƒè·³é¢‘ç‡ã€‚
-     å¸¸é‡portTICK_RATE_MS å¯ä»¥ç”¨æ¥æŠŠå¿ƒè·³æ—¶é—´å•ä½è½¬æ¢ä¸ºæ¯«ç§’æ—¶é—´å•ä½ã€‚
-ï¼ˆ3ï¼‰å¦‚æœæŠŠxTicksToWait è®¾ç½®ä¸ºportMAX_DELAYï¼Œ
-     å¹¶ä¸”åœ¨FreeRTOSConig.h ä¸­è®¾å®šINCLUDE_vTaskSuspend ä¸º1ï¼Œé‚£ä¹ˆé˜»å¡ç­‰å¾…å°†æ²¡æœ‰è¶…æ—¶é™åˆ¶ã€‚
+×èÈû³¬Ê±Ê±¼ä¡£
+£¨1£©Èç¹ûÔÚ½ÓÊÕÊ±¶ÓÁĞÎª¿Õ£¬ÔòÕâ¸öÊ±¼äÊÇÈÎÎñ´¦ÓÚ×èÈû×´Ì¬ÒÔµÈ´ı¶ÓÁĞÊı¾İÓĞĞ§µÄ×î³¤µÈ´ıÊ±¼ä¡£
+£¨2£©Èç¹ûxTicksToWait ÉèÎª0£¬²¢ÇÒ¶ÓÁĞÎª¿Õ£¬ÔòxQueueRecieve()ÓëxQueuePeek()¾ù»áÁ¢¼´·µ»Ø¡£
+     ×èÈûÊ±¼äÊÇÒÔÏµÍ³ĞÄÌøÖÜÆÚÎªµ¥Î»µÄ£¬ËùÒÔ¾ø¶ÔÊ±¼äÈ¡¾öÓÚÏµÍ³ĞÄÌøÆµÂÊ¡£
+     ³£Á¿portTICK_RATE_MS ¿ÉÒÔÓÃÀ´°ÑĞÄÌøÊ±¼äµ¥Î»×ª»»ÎªºÁÃëÊ±¼äµ¥Î»¡£
+£¨3£©Èç¹û°ÑxTicksToWait ÉèÖÃÎªportMAX_DELAY£¬
+     ²¢ÇÒÔÚFreeRTOSConig.h ÖĞÉè¶¨INCLUDE_vTaskSuspend Îª1£¬ÄÇÃ´×èÈûµÈ´ı½«Ã»ÓĞ³¬Ê±ÏŞÖÆ¡£
 */
     while( xSerialGetChar( xPort, &cRxedChar, portMAX_DELAY ) != pdTRUE );
 
@@ -218,8 +218,8 @@ void cmd_loop( void *pvParameters )
           FreeRTOS_CLIProcessCommand( cInputStr, pcOutStr, config_MAX_OUTPUT_SIZE );
 
           /* Write the generated string to the UART. */
-          /* å‘½ä»¤æ‰§è¡Œç»“æœæ”¾å…¥ç¼“å­˜ï¼Œåœ¨è¿™é‡Œæ‰“å° */
-          #if 0  // æ”¹ä¸ºç›´æ¥åœ¨å‘½ä»¤é‡Œæ‰“å°
+          /* ÃüÁîÖ´ĞĞ½á¹û·ÅÈë»º´æ£¬ÔÚÕâÀï´òÓ¡ */
+          #if 0  // ¸ÄÎªÖ±½ÓÔÚÃüÁîÀï´òÓ¡
           vSerialPutString( xPort, ( signed char * ) pcOutStr, ( unsigned short ) strlen( pcOutStr ) );
           #endif
 
@@ -232,10 +232,10 @@ void cmd_loop( void *pvParameters )
           memset( cInputStr, 0x00, cmdMAX_INPUT_SIZE );
         } else {
           /* Copy the last command back into the input string. */
-          // strcpy( cInputStr, cLastInputStr );  // ä¸æ‰§è¡Œä¸Šä¸€æ¬¡å‘½ä»¤
+          // strcpy( cInputStr, cLastInputStr );  // ²»Ö´ĞĞÉÏÒ»´ÎÃüÁî
         }
 
-        /* æ¸…ç©ºé˜Ÿåˆ— */
+        /* Çå¿Õ¶ÓÁĞ */
         xSerialReset( xPort );
 
         vSerialPutString( xPort, ( signed char * ) pcEndOfMsg, ( unsigned short ) strlen( pcEndOfMsg ) );
@@ -250,7 +250,7 @@ void cmd_loop( void *pvParameters )
           {
             ucInputIndex--;
             cInputStr[ ucInputIndex ] = '\0';
-            /* åˆ é™¤å…‰æ ‡å·¦è¾¹çš„ä¸€ä¸ªå­—ç¬¦ */
+            /* É¾³ı¹â±ê×ó±ßµÄÒ»¸ö×Ö·û */
             MOVELEFT(1);
             CLEAR_LINE();
           }
@@ -266,7 +266,7 @@ void cmd_loop( void *pvParameters )
             {
               cInputStr[ ucInputIndex ] = cRxedChar;
               ucInputIndex++;
-              /* å±å¹• ECHO */
+              /* ÆÁÄ» ECHO */
               xSerialPutChar( xPort, cRxedChar, portMAX_DELAY );
             }
           }
@@ -280,7 +280,7 @@ void cmd_loop( void *pvParameters )
 }
 /*-----------------------------------------------------------*/
 
-/* å¤–éƒ¨ä½¿ç”¨ï¼Œæš‚æ—¶ä¸ç”¨ */
+/* Íâ²¿Ê¹ÓÃ£¬ÔİÊ±²»ÓÃ */
 void vCommandPutString( const char * const pcMessage)
 {
   if( xSemaphoreTake( xTxMutex, cmdMAX_MUTEX_WAIT ) == pdPASS )

@@ -205,9 +205,9 @@ void bubble_sort(uint16_t arr[], int len)
 {
   uint16_t temp;
   int i, j;
-  for (i=0; i<len-1; i++) {     /* å¤–å¾ªç¯ä¸ºæ’åºè¶Ÿæ•°ï¼Œlenä¸ªæ•°è¿›è¡Œlen-1è¶Ÿ */
-    for (j=0; j<len-1-i; j++) { /* å†…å¾ªç¯ä¸ºæ¯è¶Ÿæ¯”è¾ƒçš„æ¬¡æ•°ï¼Œç¬¬iè¶Ÿæ¯”è¾ƒlen-iæ¬¡ */
-      if (arr[j] > arr[j+1]) {  /* ç›¸é‚»å…ƒç´ æ¯”è¾ƒï¼Œè‹¥é€†åºåˆ™äº¤æ¢ï¼ˆå‡åºä¸ºå·¦å¤§äºå³ï¼Œé™åºåä¹‹ï¼‰ */
+  for (i=0; i<len-1; i++) {     /* ÍâÑ­»·ÎªÅÅĞòÌËÊı£¬len¸öÊı½øĞĞlen-1ÌË */
+    for (j=0; j<len-1-i; j++) { /* ÄÚÑ­»·ÎªÃ¿ÌË±È½ÏµÄ´ÎÊı£¬µÚiÌË±È½Ïlen-i´Î */
+      if (arr[j] > arr[j+1]) {  /* ÏàÁÚÔªËØ±È½Ï£¬ÈôÄæĞòÔò½»»»£¨ÉıĞòÎª×ó´óÓÚÓÒ£¬½µĞò·´Ö®£© */
         temp = arr[j];
         arr[j] = arr[j+1];
         arr[j+1] = temp;
@@ -216,7 +216,7 @@ void bubble_sort(uint16_t arr[], int len)
   }
 }
 
-#define READ_TIMES 5  // è¯»å–æ¬¡æ•°
+#define READ_TIMES 5  // ¶ÁÈ¡´ÎÊı
 int
 touch_measure_y(void)
 {
@@ -256,10 +256,10 @@ touch_prepare_sense(void)
 }
 
 void
-touch_start_watchdog(void)  // å¼€å¯ ADC æ¨¡æ‹Ÿçœ‹é—¨ç‹—
+touch_start_watchdog(void)  // ¿ªÆô ADC Ä£Äâ¿´ÃÅ¹·
 {
   touch_prepare_sense();
-  /* å¼€å¯ä¸­æ–­ */
+  /* ¿ªÆôÖĞ¶Ï */
   __HAL_GPIO_EXTI_CLEAR_IT(TP_IRQ_Pin);
   HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
@@ -281,12 +281,12 @@ touch_status(void)
 int touch_check(void)
 {
   // uint8_t buf[7];
-  int stat = touch_status();    // è¯»å–è§¦æ‘¸çŠ¶æ€
-  if (stat) {                   // è§¦æ‘¸å·²æŒ‰ä¸‹
+  int stat = touch_status();    // ¶ÁÈ¡´¥Ãş×´Ì¬
+  if (stat) {                   // ´¥ÃşÒÑ°´ÏÂ
     /*
     chThdSleepMilliseconds(10);
-    int x = touch_measure_x();  // å¾—åˆ°åæ ‡å€¼
-    int y = touch_measure_y();  // å¾—åˆ°åæ ‡å€¼
+    int x = touch_measure_x();  // µÃµ½×ø±êÖµ
+    int y = touch_measure_y();  // µÃµ½×ø±êÖµ
     //if (touch_status()) {
       last_touch_x = x;
       last_touch_y = y;
@@ -294,7 +294,7 @@ int touch_check(void)
     touch_prepare_sense();
     */
     /*
-    osDelay(10);                // 10ms è¯»å–ä¸€æ¬¡
+    osDelay(10);                // 10ms ¶ÁÈ¡Ò»´Î
     ctp_readreg(0, (uint8_t *)&buf, 7);
     if ((buf[2]&0x0F) == 1) {
         last_touch_x = (uint16_t)(buf[5] & 0x0F)<<8 | (uint16_t)buf[6];
@@ -308,11 +308,11 @@ int touch_check(void)
             last_touch_y = LCD_HEIGHT;
         }
     } else {
-        return EVT_TOUCH_NONE;  // æ•°æ®ä¸å¯¹ï¼Œé€€å‡º
+        return EVT_TOUCH_NONE;  // Êı¾İ²»¶Ô£¬ÍË³ö
     }
     */
-    int x = touch_measure_x();  // è¯»å– n æ¬¡ï¼Œå¾—åˆ°åæ ‡å€¼
-    int y = touch_measure_y();  // è¯»å– n æ¬¡ï¼Œå¾—åˆ°åæ ‡å€¼
+    int x = touch_measure_x();  // ¶ÁÈ¡ n ´Î£¬µÃµ½×ø±êÖµ
+    int y = touch_measure_y();  // ¶ÁÈ¡ n ´Î£¬µÃµ½×ø±êÖµ
     //if (touch_status()) {
       last_touch_x = x;
       last_touch_y = y;
@@ -322,16 +322,16 @@ int touch_check(void)
 
   if (stat != last_touch_status) {
     last_touch_status = stat;
-    if (stat) {  // è§¦æ‘¸æŒ‰ä¸‹
-      return EVT_TOUCH_PRESSED;   // ä¹‹å‰ä¸º 0ï¼Œç°åœ¨ä¸º 1
-    } else {     // è§¦æ‘¸é‡Šæ”¾
-      return EVT_TOUCH_RELEASED;  // ä¹‹å‰ä¸º 1ï¼Œç°åœ¨ä¸º 0
+    if (stat) {  // ´¥Ãş°´ÏÂ
+      return EVT_TOUCH_PRESSED;   // Ö®Ç°Îª 0£¬ÏÖÔÚÎª 1
+    } else {     // ´¥ÃşÊÍ·Å
+      return EVT_TOUCH_RELEASED;  // Ö®Ç°Îª 1£¬ÏÖÔÚÎª 0
     }
   } else {
     if (stat) 
-      return EVT_TOUCH_DOWN;      // é•¿æŒ‰
+      return EVT_TOUCH_DOWN;      // ³¤°´
     else
-      return EVT_TOUCH_NONE;      // æ— æ•ˆ
+      return EVT_TOUCH_NONE;      // ÎŞĞ§
   }
 }
 
@@ -347,7 +347,7 @@ void touch_wait_release(void)
 extern void nt35510_line_x2(int, int, int, int, int);
 
 void
-touch_cal_exec(void)  // è§¦æ‘¸æ ¡å‡†
+touch_cal_exec(void)  // ´¥ÃşĞ£×¼
 {
   int status;
   int x1, x2, y1, y2;
@@ -399,22 +399,22 @@ touch_draw_test(void)
 
   do {
     status = touch_check();
-  } while(status != EVT_TOUCH_PRESSED);    // æ— é”®åˆ™æ­»ç­‰
-  touch_position(&x0, &y0);                // è·å–åæ ‡
+  } while(status != EVT_TOUCH_PRESSED);    // ÎŞ¼üÔòËÀµÈ
+  touch_position(&x0, &y0);                // »ñÈ¡×ø±ê
 
   // dbprintf("Event 0, X:%3d Y:%3d\r\n", x0, y0);
 
   do {
     status = touch_check();
-    touch_position(&x1, &y1);              // è·å–åæ ‡
+    touch_position(&x1, &y1);              // »ñÈ¡×ø±ê
     
-    nt35510_line_x2(x0, y0, x1, y1, 0xffff);  // ç”»çº¿
+    nt35510_line_x2(x0, y0, x1, y1, 0xffff);  // »­Ïß
     // dbprintf("Event 1, X:%3d Y:%3d\r\n", x1, y1);
 
     x0 = x1;
     y0 = y1;
     osDelay(50);
-  } while(status != EVT_TOUCH_RELEASED);   // æŒ‰ä¸‹åˆ™æ­»ç­‰
+  } while(status != EVT_TOUCH_RELEASED);   // °´ÏÂÔòËÀµÈ
 
   // dbprintf("Event 2, X:%3d Y:%3d\r\n", x0, y0);
 
@@ -422,7 +422,7 @@ touch_draw_test(void)
 }
 
 void
-touch_position(int *x, int *y)  // çœŸæ­£çš„è·å–åæ ‡
+touch_position(int *x, int *y)  // ÕæÕıµÄ»ñÈ¡×ø±ê
 {
   // *x = (last_touch_x - config.touch_cal[0]) * 16 / config.touch_cal[2];
   // *y = (last_touch_y - config.touch_cal[1]) * 16 / config.touch_cal[3];
@@ -1153,7 +1153,7 @@ void
 draw_numeric_input(const char *buf)
 {
   int i = 0;
-  int x = 64;  // æ•°å­—æ¡å¼€å§‹ä½ç½®
+  int x = 64;  // Êı×ÖÌõ¿ªÊ¼Î»ÖÃ
   int focused = FALSE;
   const uint16_t xsim[] = { 0, 0, 8, 0, 0, 8, 0, 0, 0, 0 };
   for (i = 0; i < 10 && buf[i]; i++) {
@@ -1301,8 +1301,8 @@ menu_apply_touch(void)
     if (menu[i].type == MT_BLANK) 
       continue;
     int y = 32*i;
-    if (y-2 < touch_y && touch_y < y+30+2  // èœå•å®½åº¦30ï¼Œä»ä¸Šè‡³ä¸‹
-        && LCD_WIDTH-60 < touch_x) {       // èœå•ä½äºå³ä¾§
+    if (y-2 < touch_y && touch_y < y+30+2  // ²Ëµ¥¿í¶È30£¬´ÓÉÏÖÁÏÂ
+        && LCD_WIDTH-60 < touch_x) {       // ²Ëµ¥Î»ÓÚÓÒ²à
       menu_select_touch(i);
       return;
     }
@@ -1426,7 +1426,7 @@ ui_mode_menu(void)
 #if USE_ILI_LCD
   area_width = AREA_WIDTH_NORMAL - (64-8);
 #else
-  // æœ‰æ•ˆçš„åˆ·æ–°é¢ç§¯å‡å»æŒ‰é’®çš„å®½åº¦
+  // ÓĞĞ§µÄË¢ĞÂÃæ»ı¼õÈ¥°´Å¥µÄ¿í¶È
   area_width = AREA_WIDTH_NORMAL - (64-8-16);
 #endif
   area_height = HEIGHT;
@@ -1546,7 +1546,7 @@ ui_process_menu(void)
   }
 }
 
-/* æ•°å­—æ¡é—´éš” 20 20 20 8 20 20 20 8 20 20 20 20 */
+/* Êı×ÖÌõ¼ä¸ô 20 20 20 8 20 20 20 8 20 20 20 20 */
 uint16_t
 get_postion(uint8_t d)
 {
@@ -1663,7 +1663,7 @@ keypad_apply_touch(void)
   return -1;
 }
 
-/* æ•°å­—æ¡é—´éš” 20 20 20 8 20 20 20 8 20 20 20 20 */
+/* Êı×ÖÌõ¼ä¸ô 20 20 20 8 20 20 20 8 20 20 20 20 */
 uint8_t
 get_digit(uint16_t x)
 {
@@ -1709,14 +1709,14 @@ numeric_apply_touch(void)
     return;
   }
   
-  if (touch_x < 64) {  // æŒ‰ä¸‹å·¦ä¸‹è§’ï¼Œç¡®è®¤è¾“å…¥
+  if (touch_x < 64) {  // °´ÏÂ×óÏÂ½Ç£¬È·ÈÏÊäÈë
     set_numeric_value();
     ui_mode_normal();
     return;
   }
   
   if (touch_x > 64+9*20+8+8) {
-    ui_mode_keypad(keypad_mode);  // æŒ‰ä¸‹æ•°å­—æ¡åéƒ¨ï¼Œå¼¹å‡ºå¤§é”®ç›˜
+    ui_mode_keypad(keypad_mode);  // °´ÏÂÊı×ÖÌõºó²¿£¬µ¯³ö´ó¼üÅÌ
     ui_process_keypad();
     return;
   }
@@ -1911,7 +1911,7 @@ sq_distance(int x0, int y0)
 
 /*
 =======================================
-    æ‹¾å–æ ‡è®°ç‚¹
+    Ê°È¡±ê¼Çµã
 =======================================
 */
 int
@@ -1934,7 +1934,7 @@ touch_pickup_marker(void)
 
       marker_position(m, t, &x, &y);
 
-      if (sq_distance(x - touch_x, y - touch_y) < 20*20) {  // ç›´çº¿è·ç¦» 20åƒç´ 
+      if (sq_distance(x - touch_x, y - touch_y) < 20*20) {  // Ö±Ïß¾àÀë 20ÏñËØ
         if (active_marker != m) {
           previous_marker = active_marker;
           active_marker = m;
@@ -1944,7 +1944,7 @@ touch_pickup_marker(void)
         uistat.current_trace = t;
         
         // drag marker until release
-        drag_marker(t, m);  // æ‹–åŠ¨æ ‡è®°ç‚¹
+        drag_marker(t, m);  // ÍÏ¶¯±ê¼Çµã
         return TRUE;
       }
     }
@@ -1963,23 +1963,23 @@ ui_process_touch(void)
   if (status == EVT_TOUCH_PRESSED || status == EVT_TOUCH_DOWN) {
     switch (ui_mode) {
     case UI_NORMAL:
-      // æ˜¯å¦æ‹–åŠ¨æ ‡è®°
+      // ÊÇ·ñÍÏ¶¯±ê¼Ç
       if (touch_pickup_marker()) {
         break;
       }
-      // å¦åˆ™æ‰“å¼€èœå•
+      // ·ñÔò´ò¿ª²Ëµ¥
       touch_wait_release();
 
       // switch menu mode
       selection = -1;
-      ui_mode_menu();  // æ‰“å¼€èœå•
+      ui_mode_menu();  // ´ò¿ª²Ëµ¥
       break;
 
-    case UI_MENU:      // è®¾ç½®èœå•
+    case UI_MENU:      // ÉèÖÃ²Ëµ¥
       menu_apply_touch();
       break;
 
-    case UI_NUMERIC:   // æ•°å­—æ¡æ¨¡å¼
+    case UI_NUMERIC:   // Êı×ÖÌõÄ£Ê½
       numeric_apply_touch();
       break;
     }
@@ -1991,10 +1991,10 @@ void
 ui_process(void)
 {
   switch (operation_requested) {
-  case OP_LEVER:  // æ³¢è½®
+  case OP_LEVER:  // ²¨ÂÖ
     ui_process_lever();
     break;
-  case OP_TOUCH:  // è§¦æ‘¸
+  case OP_TOUCH:  // ´¥Ãş
     ui_process_touch();
     break;
   }

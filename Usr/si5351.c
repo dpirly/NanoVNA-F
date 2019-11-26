@@ -28,7 +28,7 @@ extern void tlv320aic3204_set_gain(int lgain, int rgain);
 
 /*
 =======================================
-    si5351 å†™å•ä¸ªå¯„å­˜å™¨
+    si5351 Ğ´µ¥¸ö¼Ä´æÆ÷
 =======================================
 */
 static void si5351_write(uint8_t reg, uint8_t dat)
@@ -38,7 +38,7 @@ static void si5351_write(uint8_t reg, uint8_t dat)
 
 /*
 =======================================
-    si5351 å†™å¤šä¸ªå¯„å­˜å™¨
+    si5351 Ğ´¶à¸ö¼Ä´æÆ÷
 =======================================
 */
 static void si5351_bulk_write(const uint8_t *buf, int len)
@@ -48,26 +48,26 @@ static void si5351_bulk_write(const uint8_t *buf, int len)
 
 /*
 =======================================
-    åˆå§‹åŒ–å†™å…¥çš„å¯„å­˜å™¨å€¼ Floor å‘ä¸‹å–æ•´
-    å°æ•°åˆ†é¢‘æ¨¡å¼
+    ³õÊ¼»¯Ğ´ÈëµÄ¼Ä´æÆ÷Öµ Floor ÏòÏÂÈ¡Õû
+    Ğ¡Êı·ÖÆµÄ£Ê½
     P3 20bit = c
     P2 20bit = 128 * b - c * floor(128*b/c)
     P1 18bit = 128 * a - c * floor(128*b/c) - 512
     P3 = 1
     P2 = 0;
     P1 = (32/2 - 2)*256 = 14*256, a = 32
-    å€é¢‘å’Œåˆ†é¢‘ç³»æ•°éƒ½ä¸º a+b/c
-    è¯´æ˜ï¼š
+    ±¶ÆµºÍ·ÖÆµÏµÊı¶¼Îª a+b/c
+    ËµÃ÷£º
     VCO frequency in the range of 600 to 900 MHz.
     Either of these two VCO frequencies can be divided down  between 500 kHz and 200 MHz. 
-    æœ‰æ•ˆç³»æ•° 4, 6, 8, and any fractional value between 8 + 1/1,048,575 and 900 + 0/1.
+    ÓĞĞ§ÏµÊı 4, 6, 8, and any fractional value between 8 + 1/1,048,575 and 900 + 0/1.
 =======================================
 */
 // length, register addr, data, ...
 const uint8_t si5351_configs[] = {
-  2, SI5351_REG_3_OUTPUT_ENABLE_CONTROL, 0xff,  // å…³é—­æ‰€æœ‰è¾“å‡º
-  4, SI5351_REG_16_CLK0_CONTROL, SI5351_CLK_POWERDOWN, SI5351_CLK_POWERDOWN, SI5351_CLK_POWERDOWN,  // å…³é—­æ‰€æœ‰CLKç”µæº
-  2, SI5351_REG_183_CRYSTAL_LOAD, SI5351_CRYSTAL_LOAD_8PF,  // ä¸ºä»€ä¹ˆï¼Œä¿®æ”¹åæœ‰é—®é¢˜
+  2, SI5351_REG_3_OUTPUT_ENABLE_CONTROL, 0xff,  // ¹Ø±ÕËùÓĞÊä³ö
+  4, SI5351_REG_16_CLK0_CONTROL, SI5351_CLK_POWERDOWN, SI5351_CLK_POWERDOWN, SI5351_CLK_POWERDOWN,  // ¹Ø±ÕËùÓĞCLKµçÔ´
+  2, SI5351_REG_183_CRYSTAL_LOAD, SI5351_CRYSTAL_LOAD_8PF,  // ÎªÊ²Ã´£¬ĞŞ¸ÄºóÓĞÎÊÌâ
   // setup PLLA (26MHz * 32 = 832MHz, 32/2-2=14) a =32
   9, SI5351_REG_26_PLL_A, /*P3*/0, 1, /*P1*/0, 14, 0, /*P3/P2*/0, 0, 0,  // Multisynth NA => PLLA
   9, SI5351_REG_34_PLL_B, /*P3*/0, 1, /*P1*/0, 14, 0, /*P3/P2*/0, 0, 0,  // Multisynth NB => PLLB
@@ -75,16 +75,16 @@ const uint8_t si5351_configs[] = {
   2, SI5351_REG_177_PLL_RESET, SI5351_PLL_RESET_A | SI5351_PLL_RESET_B,
   // setup multisynth (832MHz / 104 = 8MHz, 104/2-2=50) a = 104
   9, SI5351_REG_58_MULTISYNTH2, /*P3*/0, 1, /*P1*/0, 50, 0, /*P2|P3*/0, 0, 0,  
-  // åªæ‰“å¼€ CLK2 è¾“å‡º 8MHz PLLB Select MultiSynth 2 as the source for CLK2. å¯é€‰è¾“å‡ºå…³é—­=(1 << 7)
+  // Ö»´ò¿ª CLK2 Êä³ö 8MHz PLLB Select MultiSynth 2 as the source for CLK2. ¿ÉÑ¡Êä³ö¹Ø±Õ=(1 << 7)
   2, SI5351_REG_18_CLK2_CONTROL, SI5351_CLK_DRIVE_STRENGTH_2MA | SI5351_CLK_INPUT_MULTISYNTH_N | SI5351_CLK_INTEGER_MODE | SI5351_CLK_PLL_SELECT_B,
-  2, SI5351_REG_3_OUTPUT_ENABLE_CONTROL, 0,  // ä½¿èƒ½è¾“å‡ºæ‰€æœ‰æ—¶é’Ÿ
+  2, SI5351_REG_3_OUTPUT_ENABLE_CONTROL, 0,  // Ê¹ÄÜÊä³öËùÓĞÊ±ÖÓ
   0 // sentinel
 };
 
 /*
 =======================================
-    si5351 åˆå§‹åŒ–
-    åªæ‰“å¼€ CLK2 è¾“å‡º 8MHz
+    si5351 ³õÊ¼»¯
+    Ö»´ò¿ª CLK2 Êä³ö 8MHz
 =======================================
 */
 void si5351_init(void)
@@ -99,7 +99,7 @@ void si5351_init(void)
 
 /*
 =======================================
-    si5351 å…³é—­è¾“å‡º
+    si5351 ¹Ø±ÕÊä³ö
 =======================================
 */
 void si5351_disable_output(void)
@@ -115,7 +115,7 @@ void si5351_disable_output(void)
 
 /*
 =======================================
-    si5351 æ‰“å¼€è¾“å‡º
+    si5351 ´ò¿ªÊä³ö
 =======================================
 */
 void si5351_enable_output(void)
@@ -126,7 +126,7 @@ void si5351_enable_output(void)
 
 /*
 =======================================
-    si5351 PLL å¤ä½
+    si5351 PLL ¸´Î»
 =======================================
 */
 void si5351_reset_pll(void)
@@ -137,7 +137,7 @@ void si5351_reset_pll(void)
 
 /*
 =======================================
-    si5351 é…ç½® PLL
+    si5351 ÅäÖÃ PLL
 =======================================
 */
 void si5351_setupPLL(uint8_t pll, /* SI5351_PLL_A or SI5351_PLL_B */
@@ -198,7 +198,7 @@ void si5351_setupPLL(uint8_t pll, /* SI5351_PLL_A or SI5351_PLL_B */
 
 /*
 =======================================
-    si5351 é…ç½®åˆ†é¢‘æ¯”
+    si5351 ÅäÖÃ·ÖÆµ±È
 =======================================
 */
 void 
@@ -298,7 +298,7 @@ static uint32_t gcd(uint32_t x, uint32_t y)
 
 /*
 =======================================
-    si5351 é…ç½®è¾“å‡ºé¢‘ç‡ï¼Œå€é¢‘ä¸å˜
+    si5351 ÅäÖÃÊä³öÆµÂÊ£¬±¶Æµ²»±ä
 =======================================
 */
 void
@@ -316,13 +316,13 @@ si5351_set_frequency_fixedpll(int channel, int pll, int pllfreq, int freq,
     num >>= 1;
     denom >>= 1;
   }
-  // div = a, num åˆ†å­, denom åˆ†æ¯
+  // div = a, num ·Ö×Ó, denom ·ÖÄ¸
   si5351_setupMultisynth(channel, pll, div, num, denom, rdiv, drive_strength);
 }
 
 /*
 =======================================
-    si5351 é…ç½®è¾“å‡ºé¢‘ç‡ï¼Œåˆ†é¢‘ä¸å˜
+    si5351 ÅäÖÃÊä³öÆµÂÊ£¬·ÖÆµ²»±ä
 =======================================
 */
 void
@@ -465,12 +465,12 @@ si5351_set_frequency_with_offset(int freq, int offset, uint8_t drive_strength)
 
 /*
  * configure output as follows:
- * CLK0: frequency + offset          å‚è€ƒ/æœ¬æŒ¯
- * CLK1: frequency                   å‘å°„
+ * CLK0: frequency + offset          ²Î¿¼/±¾Õñ
+ * CLK1: frequency                   ·¢Éä
  * CLK2: fixed 8MHz
- * æ‰©å±•é‡ç¨‹ï¼š
- * CLK0=(60+0.005/5, 180+0.005/5]    å‚è€ƒ/æœ¬æŒ¯
- * CLK1=(100, BASE_MAX]              å‘å°„
+ * À©Õ¹Á¿³Ì£º
+ * CLK0=(60+0.005/5, 180+0.005/5]    ²Î¿¼/±¾Õñ
+ * CLK1=(100, BASE_MAX]              ·¢Éä
  */
 #define CLK2_FREQUENCY 8000000L
 int
@@ -492,15 +492,15 @@ si5351_set_frequency_with_offset_expand(int freq, int offset, uint8_t drive_stre
   if (freq_c1 > BASE_MAX)
   {
     if (freq_c1 <= BASE_MAX*3) {
-      freq_c0 = freq_c0/5;    // CLK0=å‚è€ƒ/æœ¬æŒ¯
-      freq_c1 = freq_c1/3;    // CLK1=å‘å°„
+      freq_c0 = freq_c0/5;    // CLK0=²Î¿¼/±¾Õñ
+      freq_c1 = freq_c1/3;    // CLK1=·¢Éä
     } else {
-      freq_c0 = freq_c0/7;    // CLK0=å‚è€ƒ/æœ¬æŒ¯
-      freq_c1 = freq_c1/5;    // CLK1=å‘å°„
+      freq_c0 = freq_c0/7;    // CLK0=²Î¿¼/±¾Õñ
+      freq_c1 = freq_c1/5;    // CLK1=·¢Éä
     }
   }
 
-  // CLK0: frequency + offset          å‚è€ƒ/æœ¬æŒ¯
+  // CLK0: frequency + offset          ²Î¿¼/±¾Õñ
   if (freq_c0 <= 100000000) {  // [50k,100M]
     band_c0 = 0;
   } else if (freq_c0 < 150000000) {  // (100M,150M)
@@ -509,7 +509,7 @@ si5351_set_frequency_with_offset_expand(int freq, int offset, uint8_t drive_stre
     band_c0 = 2;
   }
 
-  // CLK1: frequency                   å‘å°„
+  // CLK1: frequency                   ·¢Éä
   if (freq_c1 <= 100000000) {  // [50k,100M]
     band_c1 = 0;
     band_c0 = 0;
@@ -546,7 +546,7 @@ si5351_set_frequency_with_offset_expand(int freq, int offset, uint8_t drive_stre
 
     // PLLFREQ = 832M
     si5351_set_frequency_fixedpll(0, SI5351_PLL_A, PLLFREQ, freq_c0,
-                                  rdiv, drive_strength);  // å‚è€ƒ/æœ¬æŒ¯
+                                  rdiv, drive_strength);  // ²Î¿¼/±¾Õñ
     si5351_set_frequency_fixedpll(1, SI5351_PLL_A, PLLFREQ, freq_c1,
                                   rdiv, drive_strength);
   }
@@ -588,7 +588,7 @@ si5351_set_frequency_with_offset_expand(int freq, int offset, uint8_t drive_stre
         freq_c1 *= 64;
     }
     // PLLFREQ = 832M
-    si5351_set_frequency_fixedpll(1, SI5351_PLL_B, PLLFREQ, freq_c1, rdiv, drive_strength);  // å‘å°„
+    si5351_set_frequency_fixedpll(1, SI5351_PLL_B, PLLFREQ, freq_c1, rdiv, drive_strength);  // ·¢Éä
     si5351_set_frequency_fixedpll(2, SI5351_PLL_B, PLLFREQ, CLK2_FREQUENCY,
                                   SI5351_R_DIV_1, SI5351_CLK_DRIVE_STRENGTH_2MA);
     */

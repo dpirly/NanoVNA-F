@@ -29,19 +29,19 @@ int16_t ref_buf[SAMPLE_LEN];  // 48
 
 /*
 
-å‚…ç«‹å¶å˜æ¢ä¹‹åå¾—åˆ°çš„æ¯ä¸ªç‚¹éƒ½æ˜¯å¤æ•°ï¼Œå¦‚a+bi
-å¹…åº¦æ˜¯ï¼šæ ¹å·ä¸‹ï¼ˆa^2+b^2ï¼‰
-ç›¸ä½æ˜¯ï¼šarctan(b/a)
-å®éƒ¨æ˜¯ï¼ša
-è™šæ­¥æ˜¯ï¼šb
-å¹…åº¦å’Œç›¸ä½ç»“åˆåœ¨ä¸€èµ·ï¼Œå°±èƒ½å®Œå…¨è¡¨ç¤ºå‚…ç«‹å¶å˜æ¢çš„ç»“æœï¼›
-å®éƒ¨å’Œè™šæ­¥ç»“åˆåœ¨ä¸€èµ·ä¹Ÿèƒ½å®Œå…¨è¡¨ç¤ºã€‚
+¸µÁ¢Ò¶±ä»»Ö®ºóµÃµ½µÄÃ¿¸öµã¶¼ÊÇ¸´Êı£¬Èça+bi
+·ù¶ÈÊÇ£º¸ùºÅÏÂ£¨a^2+b^2£©
+ÏàÎ»ÊÇ£ºarctan(b/a)
+Êµ²¿ÊÇ£ºa
+Ğé²½ÊÇ£ºb
+·ù¶ÈºÍÏàÎ»½áºÏÔÚÒ»Æğ£¬¾ÍÄÜÍêÈ«±íÊ¾¸µÁ¢Ò¶±ä»»µÄ½á¹û£»
+Êµ²¿ºÍĞé²½½áºÏÔÚÒ»ÆğÒ²ÄÜÍêÈ«±íÊ¾¡£
 
-a+biçš„è¡¨è¾¾æ–¹å¼ç¡®å®ä¸å¤Ÿå‹å¥½ï¼Œå˜æ¢æˆç­‰ä»·çš„râˆ Î¸çš„å½¢å¼æ˜¯ä¸æ˜¯å°±é¡ºçœ¼å¤šäº†ï¼Ÿ
-è€ƒè™‘æœ€ç›´è§‚çš„çŠ¶å†µï¼Œrå°±æ˜¯æŸä¸ªç‰©ç†ä¿¡å·çš„å¹…åº¦ï¼ŒÎ¸åˆ™æ˜¯å®ƒçš„ç›¸ä½ã€‚
+a+biµÄ±í´ï·½Ê½È·Êµ²»¹»ÓÑºÃ£¬±ä»»³ÉµÈ¼ÛµÄr¡Ï¦ÈµÄĞÎÊ½ÊÇ²»ÊÇ¾ÍË³ÑÛ¶àÁË£¿
+¿¼ÂÇ×îÖ±¹ÛµÄ×´¿ö£¬r¾ÍÊÇÄ³¸öÎïÀíĞÅºÅµÄ·ù¶È£¬¦ÈÔòÊÇËüµÄÏàÎ»¡£
 
-P1_pi=asin(10533/32767);  % P1_pi/2/pi*360 18.7507åº¦
-P2_pi=acos(31029/32767);  % P1_pi/2/pi*360 18.7449åº¦
+P1_pi=asin(10533/32767);  % P1_pi/2/pi*360 18.7507¶È
+P2_pi=acos(31029/32767);  % P1_pi/2/pi*360 18.7449¶È
 
 */
 /* Fs = 48000 */
@@ -76,10 +76,10 @@ dsp_process(int16_t *capture, size_t length)  // length = 96
   int32_t ref_s = 0;
   int32_t ref_c = 0;
 
-  for (i = 0; i < len; i++) {  // 48æ¬¡
+  for (i = 0; i < len; i++) {  // 48´Î
     uint32_t sr = *p++;
-    int16_t ref = sr & 0xffff;  // å·¦å£°é“
-    int16_t smp = (sr>>16) & 0xffff;  // å³å£°é“
+    int16_t ref = sr & 0xffff;  // ×óÉùµÀ
+    int16_t smp = (sr>>16) & 0xffff;  // ÓÒÉùµÀ
     ref_buf[i] = ref;
     samp_buf[i] = smp;
     int32_t s = sincos_tbl[i][0];
@@ -96,31 +96,27 @@ dsp_process(int16_t *capture, size_t length)  // length = 96
     ref_c = __SMLATT(sr, sc, ref_c);
 #endif
   }
-  acc_samp_s = samp_s;  // Accumulate ç´¯åŠ  Iè·¯
-  acc_samp_c = samp_c;  // Accumulate ç´¯åŠ  Qè·¯
+  acc_samp_s = samp_s;  // Accumulate ÀÛ¼Ó IÂ·
+  acc_samp_c = samp_c;  // Accumulate ÀÛ¼Ó QÂ·
   acc_ref_s = ref_s;
   acc_ref_c = ref_c;
 }
 
-// GammaæºäºCRT(æ˜¾ç¤ºå™¨/ç”µè§†æœº)çš„å“åº”æ›²çº¿,å³å…¶äº®åº¦ä¸è¾“å…¥ç”µå‹çš„éçº¿æ€§å…³ç³»
+// GammaÔ´ÓÚCRT(ÏÔÊ¾Æ÷/µçÊÓ»ú)µÄÏìÓ¦ÇúÏß,¼´ÆäÁÁ¶ÈÓëÊäÈëµçÑ¹µÄ·ÇÏßĞÔ¹ØÏµ
+//·¢ÉäÏµÊı= sample /reference
 void
-calculate_gamma(float gamma[2])  // gamma å°±æ˜¯ç³»æ•°çš„æ„æ€
+calculate_gamma(float gamma[2])  // gamma ¾ÍÊÇÏµÊıµÄÒâË¼
 {
-  float rs = acc_ref_s;  // å‚è€ƒ sin
-  float rc = acc_ref_c;  // å‚è€ƒ cos
+  float rs = acc_ref_s;  // ²Î¿¼ sin
+  float rc = acc_ref_c;  // ²Î¿¼ cos
   float rr = rs * rs + rc * rc;
   //rr = sqrtf(rr) * 1e8;
-  float ss = acc_samp_s;  // ä¿¡å· sin
-  float sc = acc_samp_c;  // ä¿¡å· cos
-  gamma[0] =  (sc * rc + ss * rs) / rr;  // å®éƒ¨ï¼Ÿ
-  gamma[1] =  (ss * rc - sc * rs) / rr;  // è™šéƒ¨ï¼Ÿ
+  float ss = acc_samp_s;  // ĞÅºÅ sin
+  float sc = acc_samp_c;  // ĞÅºÅ cos
+  // ¸´Êı³ı·¨
+  //(a+bi) /(c+di) = ((ac+bd) + (bc-ad)i)  / (c*c + d*d)
+  //                        = (ac+bd)/(c*c+d*d) + (bc-ad)i/(c*c+d*d)
+  gamma[REAL_PART] =  (sc * rc + ss * rs) / rr;  // Êµ²¿£¿
+  gamma[IMAG_PART] =  (ss * rc - sc * rs) / rr;  // Ğé²¿£¿
 }
 
-void
-reset_dsp_accumerator(void)
-{
-  acc_ref_s = 0;
-  acc_ref_c = 0;
-  acc_samp_s = 0;
-  acc_samp_c = 0;
-}

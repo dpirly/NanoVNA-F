@@ -49,8 +49,8 @@ uint32_t trace_index[TRACES_MAX][SWEEP_POINTS];
 #define CELL_Y(i)          (int)(((i)&0x1f) | (((i)>>17)&0x03e0))
 #define CELL_N(i)          (int)(((i)>>10)&0xfff)
 
-#define CELL_X0(i)         (int)(((i)>>22)&0x03e0)  // 10bitä¸­çš„é«˜5bit
-#define CELL_Y0(i)         (int)(((i)>>17)&0x03e0)  // 10bitä¸­çš„é«˜5bit
+#define CELL_X0(i)         (int)(((i)>>22)&0x03e0)  // 10bitÖÐµÄ¸ß5bit
+#define CELL_Y0(i)         (int)(((i)>>17)&0x03e0)  // 10bitÖÐµÄ¸ß5bit
 
 #define CELL_P(i, x, y)    (((((x)&0x03e0UL)<<22) | (((y)&0x03e0UL)<<17)) == ((i)&0xffc00000UL))
 
@@ -485,9 +485,9 @@ cartesian_scale(float re, float im, int *xp, int *yp, float scale)
 
 /*
 =======================================
-    x: æ¯æ¡æ›²çº¿ä¸Šç‚¹çš„ X åæ ‡
-    t: æ›²çº¿æ ‡å·
-    i: å¯¹åº”ç¬¬å‡ ä¸ªç‚¹
+    x: Ã¿ÌõÇúÏßÉÏµãµÄ X ×ø±ê
+    t: ÇúÏß±êºÅ
+    i: ¶ÔÓ¦µÚ¼¸¸öµã
 =======================================
 */
 uint32_t trace_into_index(int x, int t, int i, float coeff[2])
@@ -697,13 +697,13 @@ trace_get_info(int t, char *buf, int len)
 
 /*
 =======================================
-    æ­¤å¤„æ ‡è®°éœ€è¦åˆ·æ–°çš„ CELL
+    ´Ë´¦±ê¼ÇÐèÒªË¢ÐÂµÄ CELL
 =======================================
 */
 static inline void
 mark_map(int x, int y)
 {
-  if (y >= 0 && y < 8 && x >= 0 && x < 16)  // å¯¹åº” 8*32=256 16*32=512
+  if (y >= 0 && y < 8 && x >= 0 && x < 16)  // ¶ÔÓ¦ 8*32=256 16*32=512
     markmap[current_mappage][y] |= 1<<x;
 }
 
@@ -786,14 +786,14 @@ mark_cells_from_index(void)
 
 /*
 =======================================
-    æ ‡è®°è¦ç”»çš„ç‚¹
+    ±ê¼ÇÒª»­µÄµã
 =======================================
 */
 void plot_into_index(float measured[2][SWEEP_POINTS][2])
 {
   int i, t;
   for (i = 0; i < sweep_points; i++) {
-    int x = i * (WIDTH-1) / (sweep_points-1);  // WIDTH ä¸ºæ›²çº¿åŒºåŸŸå®½åº¦
+    int x = i * (WIDTH-1) / (sweep_points-1);  // WIDTH ÎªÇúÏßÇøÓò¿í¶È
     for (t = 0; t < TRACES_MAX; t++) {
       if (!trace[t].enabled)
         continue;
@@ -807,7 +807,7 @@ void plot_into_index(float measured[2][SWEEP_POINTS][2])
       quicksort(trace_index[t], 0, sweep_points);
 #endif
 
-  mark_cells_from_index();  // æ ‡è®° CELL
+  mark_cells_from_index();  // ±ê¼Ç CELL
   markmap_all_markers();
 }
 
@@ -1090,7 +1090,7 @@ markmap_all_markers(void)
 
 /*
 =======================================
-    æŠŠå›¾åƒä¿¡æ¯æ”¾åˆ° CELL ä¸­
+    °ÑÍ¼ÏñÐÅÏ¢·Åµ½ CELL ÖÐ
 =======================================
 */
 void draw_cell(int m, int n)
@@ -1113,7 +1113,7 @@ void draw_cell(int m, int n)
     return;
 
   uint16_t grid_mode = 0;
-  for (t = 0; t < TRACES_MAX; t++) { // å…± 4 æ¡æ›²çº¿
+  for (t = 0; t < TRACES_MAX; t++) { // ¹² 4 ÌõÇúÏß
     if (!trace[t].enabled)
       continue;
 
@@ -1215,7 +1215,7 @@ void draw_cell(int m, int n)
   cell_draw_marker_info(m, n, w, h);
   PULSE;
 
-  if (m == 0) // refpos æ€»åœ¨ m=0 çš„ Cell
+  if (m == 0) // refpos ×ÜÔÚ m=0 µÄ Cell
     cell_draw_refpos(m, n, w, h);
 
   nt35510_bulk_x2(OFFSETX + x0off, OFFSETY + y0, w, h);
@@ -1227,7 +1227,7 @@ draw_all_cells(void)
   int m, n;
   for (m = 0; m < (area_width+CELLWIDTH-1) / CELLWIDTH; m++)  // 0-9 -> 0-10
     for (n = 0; n < (area_height+CELLHEIGHT-1) / CELLHEIGHT; n++) {  // 0-8
-      if (is_mapmarked(m, n)) // åªç»˜åˆ¶æ ‡è®°çš„CELL
+      if (is_mapmarked(m, n)) // Ö»»æÖÆ±ê¼ÇµÄCELL
         draw_cell(m, n);
       //ui_process();
       //if (operation_requested)
@@ -1295,9 +1295,9 @@ request_to_draw_cells_behind_numeric_input(void)
 
 /*
 =======================================
-    w  CELL çš„å®½åº¦
-    h  CELL çš„é«˜åº¦
-    ch æŸä¸ªå­—ç¬¦
+    w  CELL µÄ¿í¶È
+    h  CELL µÄ¸ß¶È
+    ch Ä³¸ö×Ö·û
 =======================================
 */
 void cell_drawchar_5x7(int w, int h, uint8_t ch, int x, int y, uint16_t fg, int invert)
@@ -1342,9 +1342,9 @@ cell_drawstring_invert_5x7(int w, int h, char *str, int x, int y, uint16_t fg, i
 
 /*
 =======================================
-    w  CELL çš„å®½åº¦
-    h  CELL çš„é«˜åº¦
-    ch æŸä¸ªå­—ç¬¦
+    w  CELL µÄ¿í¶È
+    h  CELL µÄ¸ß¶È
+    ch Ä³¸ö×Ö·û
 =======================================
 */
 void cell_drawchar_06x13(int w, int h, uint8_t ch, int x, int y, uint16_t fg, int invert)
@@ -1389,7 +1389,7 @@ cell_drawstring_invert_06x13(int w, int h, char *str, int x, int y, uint16_t fg,
 
 /*
 =======================================
-    æ˜¾ç¤º mark ç‚¹çš„ä¿¡æ¯
+    ÏÔÊ¾ mark µãµÄÐÅÏ¢
 =======================================
 */
 void cell_draw_marker_info(int m, int n, int w, int h)

@@ -21,7 +21,7 @@ uint16_t lcd_buffer[4096];
 
 /*
 =======================================
-    å»¶æ—¶å‡½æ•°
+    ÑÓÊ±º¯Êı
 =======================================
 */
 static void lcd_delay(int j)
@@ -35,7 +35,7 @@ static void lcd_delay(int j)
 
 /*
 =======================================
-    LCD å¤ä½
+    LCD ¸´Î»
 =======================================
 */
 static void lcd_rst(void)
@@ -48,7 +48,7 @@ static void lcd_rst(void)
 
 /*
 =======================================
-    å†™å‘½ä»¤
+    Ğ´ÃüÁî
 =======================================
 */
 void WriteComm(uint16_t cmd)
@@ -58,7 +58,7 @@ void WriteComm(uint16_t cmd)
 
 /*
 =======================================
-    å†™æ•°æ®
+    Ğ´Êı¾İ
 =======================================
 */
 void WriteData(uint16_t dat)
@@ -119,8 +119,8 @@ uint16_t get_point( uint16_t x, uint16_t y)
 
   y = *(__IO uint16_t *)(BANK1_LCD_D);
 
-  // return (x&0xf800)|((x&0x00fc)<<3)|(y>>11); // è¿”å›æ­£ç¡®ç‚¹
-  return 0; // æ•…æ„è¿”å›é”™è¯¯ç‚¹ï¼Œä»¤å…¶å‡ºç°æ‹–å½±
+  // return (x&0xf800)|((x&0x00fc)<<3)|(y>>11); // ·µ»ØÕıÈ·µã
+  return 0; // ¹ÊÒâ·µ»Ø´íÎóµã£¬ÁîÆä³öÏÖÍÏÓ°
 }
 
 void nt35510_fill(int x, int y, int w, int h, int color)
@@ -140,7 +140,7 @@ void nt35510_fill(int x, int y, int w, int h, int color)
 
 /*
 =======================================
-    LCD åˆå§‹åŒ–
+    LCD ³õÊ¼»¯
 =======================================
 */
 void nt35510_init(void)
@@ -554,14 +554,14 @@ void nt35510_init(void)
 
 /*
 =======================================
-    ç”»ä¸€ä¸ªåƒç´ ç‚¹
+    »­Ò»¸öÏñËØµã
 =======================================
 */
 void nt35510_pixel_x2(int x, int y, int color)
 {
   int i;
 
-  set_block(x*2, x*2+1, y*2, y*2+1);  // æ‰©å±•ä¸º2å€
+  set_block(x*2, x*2+1, y*2, y*2+1);  // À©Õ¹Îª2±¶
   WriteComm(0x2c00);    // RAMWR
 
   for (i=0; i<4; i++)
@@ -572,17 +572,17 @@ void nt35510_pixel_x2(int x, int y, int color)
 
 /*
 =======================================
-    x xæ–¹å‘çš„èµ·å§‹ç‚¹
-    y yæ–¹å‘çš„ç»ˆæ­¢ç‚¹
-    w è¦é€‰å®šçŸ©å½¢çš„xæ–¹å‘é•¿åº¦
-    h è¦é€‰å®šçŸ©å½¢çš„yæ–¹å‘é•¿åº¦
+    x x·½ÏòµÄÆğÊ¼µã
+    y y·½ÏòµÄÖÕÖ¹µã
+    w ÒªÑ¡¶¨¾ØĞÎµÄx·½Ïò³¤¶È
+    h ÒªÑ¡¶¨¾ØĞÎµÄy·½Ïò³¤¶È
 =======================================
 */
 void nt35510_fill_x2(int x, int y, int w, int h, int color)
 {
   int i;
 
-  set_block(x*2, x*2+w*2-1, y*2, y*2+h*2-1);  // æ‰©å±•ä¸º2å€
+  set_block(x*2, x*2+w*2-1, y*2, y*2+h*2-1);  // À©Õ¹Îª2±¶
   WriteComm(0x2c00);    // RAMWR
 
   for (i=0; i<w*2*h*2; i++)
@@ -593,7 +593,7 @@ void nt35510_fill_x2(int x, int y, int w, int h, int color)
 
 /*
 =======================================
-    å¡«å……ç¼“å­˜
+    Ìî³ä»º´æ
 =======================================
 */
 #if 0 // NO DMA
@@ -615,7 +615,7 @@ void nt35510_bulk_x2(int x, int y, int w, int h)
   int i,j;
   uint16_t *buf = lcd_buffer;
 
-  set_block(x*2, x*2+w*2-1, y*2, y*2+h*2-1);  // æ‰©å±•ä¸º2å€
+  set_block(x*2, x*2+w*2-1, y*2, y*2+h*2-1);  // À©Õ¹Îª2±¶
   WriteComm(0x2c00);    // RAMWR
 
   for (i=0; i<h; i++)
@@ -724,8 +724,8 @@ void nt35510_drawfont_x2(uint8_t ch, const font_t *font, int x, int y, uint16_t 
 
 #if 1
 const uint16_t colormap[] = {
-  BRG556(255,0,0), BRG556(0,255,0), BRG556(0,0,255),  // è“ çº¢ ç»¿
-  BRG556(255,255,0), BRG556(0,255,255), BRG556(255,0,255)  // ç´« é»„ é’è“
+  BRG556(255,0,0), BRG556(0,255,0), BRG556(0,0,255),  // À¶ ºì ÂÌ
+  BRG556(255,255,0), BRG556(0,255,255), BRG556(255,0,255)  // ×Ï »Æ ÇàÀ¶
 };
 
 void nt35510_test(int mode)
@@ -776,7 +776,7 @@ void nt35510_test(int mode)
 
 /*
 =======================================
-    åŒºå—åˆ·æ–°
+    Çø¿éË¢ĞÂ
 =======================================
 */
 void nt35510_bulk(int x, int y, int w, int h)
@@ -799,7 +799,7 @@ void nt35510_bulk(int x, int y, int w, int h)
 
 /*
 =======================================
-    æ˜¾ç¤ºå­—ç¬¦
+    ÏÔÊ¾×Ö·û
 =======================================
 */
 void nt35510_drawchar(MWCFONT *font, uint8_t ch, int x, int y, uint16_t fg, uint16_t bg)
@@ -819,7 +819,7 @@ void nt35510_drawchar(MWCFONT *font, uint8_t ch, int x, int y, uint16_t fg, uint
 
 /*
 =======================================
-    æ˜¾ç¤ºå­—ç¬¦ä¸²
+    ÏÔÊ¾×Ö·û´®
 =======================================
 */
 void nt35510_drawstring(MWCFONT *font, const char *str, int x, int y, uint16_t fg, uint16_t bg)
@@ -833,7 +833,7 @@ void nt35510_drawstring(MWCFONT *font, const char *str, int x, int y, uint16_t f
 
 /*
 =======================================
-    æ˜¾ç¤ºæ±‰å­— 24x24
+    ÏÔÊ¾ºº×Ö 24x24
 =======================================
 */
 extern const uint8_t hanzi_24x24_bits[];
@@ -861,7 +861,7 @@ void nt35510_drawhz24x24(const char *str, int x, int y, uint16_t fg, uint16_t bg
 
 /*
 =======================================
-    æ˜¾ç¤ºå­—ç¬¦
+    ÏÔÊ¾×Ö·û
 =======================================
 */
 void nt35510_drawchar_x2(MWCFONT *font, uint8_t ch, int x, int y, uint16_t fg, uint16_t bg)
@@ -881,7 +881,7 @@ void nt35510_drawchar_x2(MWCFONT *font, uint8_t ch, int x, int y, uint16_t fg, u
 
 /*
 =======================================
-    æ˜¾ç¤ºå­—ç¬¦ä¸²
+    ÏÔÊ¾×Ö·û´®
 =======================================
 */
 void nt35510_drawstring_x2(MWCFONT *font, const char *str, int x, int y, uint16_t fg, uint16_t bg)
@@ -898,8 +898,8 @@ void nt35510_drawchar_5x7(uint8_t ch, int x, int y, uint16_t fg, uint16_t bg)
   uint16_t *buf = lcd_buffer;
   uint16_t bits;
   int c, r;
-  for(c = 0; c < 14; c++) {  // ç»è¿‡è°ƒæ•´
-    bits = _10x20_bits[(ch * 20) + c + 2];  // ç»è¿‡è°ƒæ•´
+  for(c = 0; c < 14; c++) {  // ¾­¹ıµ÷Õû
+    bits = _10x20_bits[(ch * 20) + c + 2];  // ¾­¹ıµ÷Õû
     for (r = 0; r < 10; r++) {
       *buf++ = (0x8000 & bits) ? fg : bg;
       bits <<= 1;

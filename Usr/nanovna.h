@@ -29,6 +29,14 @@ extern int8_t welcom_8bit[];
 
 #define APP_VERSION  "v0.0.4"
 
+#define REAL_PART   (0)
+#define IMAG_PART   (1)
+#define REAL_PART_AND_IMAG_PART_LEN (2)
+
+#define  REFLECTION (0)
+#define  TRANSMISSION (1)
+#define REFLECTION_AND_TRANSMISSION_LEN    (2)
+
 #define SWEEP_POINTS 101
 
 #define USE_ILI_LCD  0
@@ -128,7 +136,6 @@ extern int16_t samp_buf[];
 extern int16_t ref_buf[];
 
 void dsp_process(int16_t *src, size_t len);
-void reset_dsp_accumerator(void);
 void calculate_gamma(float *gamma);
 
 int si5351_set_frequency_with_offset(int freq, int offset, uint8_t drive_strength);
@@ -352,7 +359,7 @@ typedef struct {
   uint16_t _cal_status;  // 校准状态
 
   uint32_t _frequencies[SWEEP_POINTS];
-  float _cal_data[5][SWEEP_POINTS][2];
+  float _cal_data[5][SWEEP_POINTS][REAL_PART_AND_IMAG_PART_LEN];
   float _electrical_delay; // picoseconds
   
   trace_t _trace[TRACES_MAX];

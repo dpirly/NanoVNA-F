@@ -77,7 +77,7 @@ int8_t cal_auto_interpolate = TRUE;
 int8_t redraw_requested = FALSE;
 int16_t vbat = 0;
 
-/* æ–‡ä»¶è¯»å†™æµ‹è¯• */
+/* ÎÄ¼ş¶ÁĞ´²âÊÔ */
 #define  FILE_SIZE   (4*1024)
 uint8_t  file_buf[FILE_SIZE];
 
@@ -85,7 +85,7 @@ uint32_t bat_adc_display(void);
 
 /*
 =======================================
-    APP æ­»å¾ªç¯
+    APP ËÀÑ­»·
 =======================================
 */
 void app_loop(void)
@@ -100,8 +100,8 @@ void app_loop(void)
     } else {
       ui_process();
     }
-    /* calculate trace coordinatesï¼šåæ ‡ */
-    plot_into_index(measured); // æ ‡è®°è¦ç”»çš„ç‚¹
+    /* calculate trace coordinates£º×ø±ê */
+    plot_into_index(measured); // ±ê¼ÇÒª»­µÄµã
     /* plot trace as raster */
     draw_all_cells();
 
@@ -130,7 +130,7 @@ void toggle_sweep(void)
 
 /*
 =======================================
-    æ‰«é¢‘æš‚åœ
+    É¨ÆµÔİÍ£
 =======================================
 */
 static void cmd_pause(BaseSequentialStream *chp, int argc, char *argv[])
@@ -145,7 +145,7 @@ static const CLI_Command_Definition_t x_cmd_pause = {
 
 /*
 =======================================
-    æ‰«é¢‘æ¢å¤
+    É¨Æµ»Ö¸´
 =======================================
 */
 static void cmd_resume(BaseSequentialStream *chp, int argc, char *argv[])
@@ -160,7 +160,7 @@ static const CLI_Command_Definition_t x_cmd_resume = {
 
 /*
 =======================================
-    ç³»ç»Ÿå¤ä½
+    ÏµÍ³¸´Î»
 =======================================
 */
 static void cmd_reset(BaseSequentialStream *chp, int argc, char *argv[])
@@ -180,7 +180,7 @@ static const CLI_Command_Definition_t x_cmd_reset = {
 
 /*
 =======================================
-    è®¾ç½®é¢‘ç‡
+    ÉèÖÃÆµÂÊ
 =======================================
 */
 int set_frequency(int freq)
@@ -200,7 +200,7 @@ int set_frequency(int freq)
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè®¾ç½®é¢‘å·®
+    ÃüÁî£ºÉèÖÃÆµ²î
 =======================================
 */
 static void cmd_offset(BaseSequentialStream *chp, int argc, char *argv[])
@@ -217,7 +217,7 @@ static const CLI_Command_Definition_t x_cmd_offset = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè®¾ç½®é¢‘ç‡
+    ÃüÁî£ºÉèÖÃÆµÂÊ
 =======================================
 */
 static void cmd_freq(BaseSequentialStream *chp, int argc, char *argv[])
@@ -238,7 +238,7 @@ static const CLI_Command_Definition_t x_cmd_freq = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè®¾ç½®åŠŸç‡
+    ÃüÁî£ºÉèÖÃ¹¦ÂÊ
 =======================================
 */
 static void cmd_power(BaseSequentialStream *chp, int argc, char *argv[])
@@ -255,7 +255,7 @@ static const CLI_Command_Definition_t x_cmd_power = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè·å–æ—¶é—´
+    ÃüÁî£º»ñÈ¡Ê±¼ä
 =======================================
 */
 static void cmd_time(BaseSequentialStream *chp, int argc, char *argv[])
@@ -270,7 +270,7 @@ static const CLI_Command_Definition_t x_cmd_time = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè®¾ç½® DAC
+    ÃüÁî£ºÉèÖÃ DAC
 =======================================
 */
 static void cmd_dac(BaseSequentialStream *chp, int argc, char *argv[])
@@ -290,7 +290,7 @@ static const CLI_Command_Definition_t x_cmd_dac = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šä¿å­˜é…ç½®
+    ÃüÁî£º±£´æÅäÖÃ
 =======================================
 */
 static void cmd_saveconfig(BaseSequentialStream *chp, int argc, char *argv[])
@@ -305,7 +305,7 @@ static const CLI_Command_Definition_t x_cmd_saveconfig = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šæ¸…é™¤é…ç½®
+    ÃüÁî£ºÇå³ıÅäÖÃ
 =======================================
 */
 static void cmd_clearconfig(BaseSequentialStream *chp, int argc, char *argv[])
@@ -328,7 +328,7 @@ static const CLI_Command_Definition_t x_cmd_clearconfig = {
 
 /*
 =======================================
-    æœ‰æ•ˆå€¼ã€å¹³å‡å€¼
+    ÓĞĞ§Öµ¡¢Æ½¾ùÖµ
 =======================================
 */
 static struct {
@@ -354,11 +354,11 @@ int16_t dump_selection = 0;
 
 volatile int16_t wait_count = 0;
 
-float measured[2][SWEEP_POINTS][2];
+float measured[REFLECTION_AND_TRANSMISSION_LEN][SWEEP_POINTS][REAL_PART_AND_IMAG_PART_LEN];
 
 /*
 =======================================
-    ç­‰å¾…å‡ ä¸ª I2S ä¸­æ–­å³ç­‰å¾…å‡ åŒ…æ•°æ®åå†å¤„ç†
+    µÈ´ı¼¸¸ö I2S ÖĞ¶Ï¼´µÈ´ı¼¸°üÊı¾İºóÔÙ´¦Àí
 =======================================
 */
 static void wait_dsp(int count)
@@ -368,7 +368,7 @@ static void wait_dsp(int count)
 }
 
 #ifdef ENABLED_DUMP
-static void duplicate_buffer_to_dump(int16_t *p)  // duplicate : é‡å¤
+static void duplicate_buffer_to_dump(int16_t *p)  // duplicate : ÖØ¸´
 {
   if (dump_selection != 0) {
     memcpy(dump_buffer, p, AUDIO_BUFFER_LEN*2);
@@ -409,7 +409,7 @@ void i2s_end_callback(size_t offset, size_t n)
 
 /*
 =======================================
-    I2S åŠä¸­æ–­
+    I2S °ëÖĞ¶Ï
 =======================================
 */
 void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
@@ -428,7 +428,7 @@ void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
 
 /*
 =======================================
-    I2S å…¨ä¸­æ–­
+    I2S È«ÖĞ¶Ï
 =======================================
 */
 void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s)
@@ -447,11 +447,11 @@ void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s)
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè·å–æ•°æ®
-    data 0-1 ä¸Šä¼ æµ‹é‡çš„æ•°æ®
-    data 2-7 ä¸Šä¼ æ ¡å‡†çš„æ•°æ®
-    0 åå°„
-    1 ä¼ è¾“
+    ÃüÁî£º»ñÈ¡Êı¾İ
+    data 0-1 ÉÏ´«²âÁ¿µÄÊı¾İ
+    data 2-7 ÉÏ´«Ğ£×¼µÄÊı¾İ
+    0 ·´Éä
+    1 ´«Êä
     2 LOAD  ED
     3 OPEN  RS
     4 SHORT ER
@@ -504,14 +504,14 @@ static void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[])
 
   dump_selection = 0;
 
-  /* åå°„æˆ–ä¼ è¾“ */
+  /* ·´Éä»ò´«Êä */
   for (i = 0; i < AUDIO_BUFFER_LEN/2; ) {
     for (j = 0; j < 16; j++, i++) {
       chprintf(chp, "%6d ", p[i*2+1]);
     }
     chprintf(chp, "\r\n");
   }
-  /* å‚è€ƒ */
+  /* ²Î¿¼ */
   for (i = 0; i < AUDIO_BUFFER_LEN/2; ) {
     for (j = 0; j < 16; j++, i++) {
       chprintf(chp, "%6d ", p[i*2]);
@@ -519,7 +519,7 @@ static void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[])
     chprintf(chp, "\r\n");
   }
 
-    /* æ±‚å‡å€¼ï¼Œæå€¼ */
+    /* Çó¾ùÖµ£¬¼«Öµ */
   acc0 = 0; acc1 = 0;
   min0 = 0; min1 = 0;
   max0 = 0; max1 = 0;
@@ -534,7 +534,7 @@ static void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[])
   ave0 = acc0 / count;
   ave1 = acc1 / count;
 
-  /* æ±‚ RMS */
+  /* Çó RMS */
   acc0 = 0;
   acc1 = 0;
   for (i = 0; i < AUDIO_BUFFER_LEN/2; i ++) {
@@ -547,10 +547,10 @@ static void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[])
   stat.rms[0] = (int16_t)sqrtf((float)(acc0 / count));
   stat.rms[1] = (int16_t)sqrtf((float)(acc1 / count));
 
-  chprintf(chp, "ave: %6d %6d\r\n", stat.ave[0], stat.ave[1]);  // åå°„æˆ–ä¼ è¾“ï¼Œå‚è€ƒ
-  chprintf(chp, "min: %6d %6d\r\n", stat.min[0], stat.min[1]);  // åå°„æˆ–ä¼ è¾“ï¼Œå‚è€ƒ
-  chprintf(chp, "max: %6d %6d\r\n", stat.max[0], stat.max[1]);  // åå°„æˆ–ä¼ è¾“ï¼Œå‚è€ƒ
-  chprintf(chp, "rms: %6d %6d\r\n", stat.rms[0], stat.rms[1]);  // åå°„æˆ–ä¼ è¾“ï¼Œå‚è€ƒ
+  chprintf(chp, "ave: %6d %6d\r\n", stat.ave[0], stat.ave[1]);  // ·´Éä»ò´«Êä£¬²Î¿¼
+  chprintf(chp, "min: %6d %6d\r\n", stat.min[0], stat.min[1]);  // ·´Éä»ò´«Êä£¬²Î¿¼
+  chprintf(chp, "max: %6d %6d\r\n", stat.max[0], stat.max[1]);  // ·´Éä»ò´«Êä£¬²Î¿¼
+  chprintf(chp, "rms: %6d %6d\r\n", stat.rms[0], stat.rms[1]);  // ·´Éä»ò´«Êä£¬²Î¿¼
   // chprintf(chp, "callback count: %d\r\n", stat.callback_count);
   // chprintf(chp, "interval cycle: %d\r\n", stat.interval_cycles);
   // chprintf(chp, "busy cycle: %d\r\n", stat.busy_cycles);
@@ -591,13 +591,13 @@ uint16_t cal_status;
 float cal_data[5][SWEEP_POINTS][2];
 #endif
 
-config_t config = {  // é»˜è®¤é…ç½®
+config_t config = {  // Ä¬ÈÏÅäÖÃ
 /* magic */   CONFIG_MAGIC,
 /* dac_value */ 1922,
 /* grid_color */ BRG556(128,128,128),
 /* menu_normal_color */ 0xffff,
 /* menu_active_color */ 0x7777,
-// S11-LOGMAG S21-LOGMAG S11-SMITH S21-PHASE é»„ è“ ç»¿ ç´«
+// S11-LOGMAG S21-LOGMAG S11-SMITH S21-PHASE »Æ À¶ ÂÌ ×Ï
 /* trace_colors[4] */ { BRG556(0,255,255), BRG556(255,0,255), BRG556(0,0,255), BRG556(233,233,0) },
 /* touch_cal[4] */ { 440, 656, 158, 259 },
 /* default_loadcal */    0,
@@ -605,7 +605,7 @@ config_t config = {  // é»˜è®¤é…ç½®
 /* checksum */           0
 };
 
-properties_t current_props = {  // é»˜è®¤å±æ€§
+properties_t current_props = {  // Ä¬ÈÏÊôĞÔ
 /* magic */   CONFIG_MAGIC,
 /* frequency0 */     50000, // start = 50kHz
 /* frequency1 */  STOP_MAX, // end
@@ -631,7 +631,7 @@ properties_t *active_props = &current_props;
 
 /*
 =======================================
-    åˆ‡æ¢åˆ°æŒ‡å‘å†…å­˜çš„å‚æ•°
+    ÇĞ»»µ½Ö¸ÏòÄÚ´æµÄ²ÎÊı
 =======================================
 */
 void ensure_edit_config(void)
@@ -701,33 +701,33 @@ rewind:
     }
 
     tlv320aic3204_select_in3(); // S11:REFLECT
-    wait_dsp(delay1);  // æ‰”æ‰ä¸¤å—æ•°æ®
+    wait_dsp(delay1);  // ÈÓµôÁ½¿éÊı¾İ
 
-    /* calculate reflection coeficient è®¡ç®—åå°„ç³»æ•° */
-    calculate_gamma(measured[0][i]);
+    /* calculate reflection coeficient ¼ÆËã·´ÉäÏµÊı */
+    calculate_gamma(measured[REFLECTION][i]);
     // dbprintf("%5d %5d\r\n", acc_samp_s, acc_samp_c);
 
     tlv320aic3204_select_in1(); // S21:TRANSMISSION
-    wait_dsp(delay2);  // æ‰”æ‰ä¸¤å—æ•°æ®
+    wait_dsp(delay2);  // ÈÓµôÁ½¿éÊı¾İ
 
-    /* calculate transmission coeficient è®¡ç®—ä¼ è¾“ç³»æ•° */
-    calculate_gamma(measured[1][i]);
+    /* calculate transmission coeficient ¼ÆËã´«ÊäÏµÊı */
+    calculate_gamma(measured[TRANSMISSION][i]);
 
-    // åº”ç”¨æ ¡å‡†æ•°æ®
+    // Ó¦ÓÃĞ£×¼Êı¾İ
     if (cal_status & CALSTAT_APPLY)
-      apply_error_term_at(i);  // æ ¡å‡† error term è¯¯å·®é¡¹ ED ES ER ET EX
+      apply_error_term_at(i);  // Ğ£×¼ error term Îó²îÏî ED ES ER ET EX
 
     if (electrical_delay != 0)
-      apply_edelay_at(i);  // æ ¡å‡†ç”µå»¶æ—¶
+      apply_edelay_at(i);  // Ğ£×¼µçÑÓÊ±
 
     redraw_requested = FALSE;
     // request_to_draw_cells_behind_menu
     // request_to_draw_cells_behind_numeric_input
     ui_process();
-    if (redraw_requested)  // é‡ç”»ï¼ˆredrawï¼‰
-      return; // return to redraw screen asap. å°½å¿«é‡æ–°ç»˜åˆ¶å±å¹•
+    if (redraw_requested)  // ÖØ»­£¨redraw£©
+      return; // return to redraw screen asap. ¾¡¿ìÖØĞÂ»æÖÆÆÁÄ»
 
-    if (frequency_updated)  // ä¿®æ”¹äº†æ‰«é¢‘å‚æ•°ï¼Œé‡æ–°å¼€å§‹æ‰«é¢‘
+    if (frequency_updated)  // ĞŞ¸ÄÁËÉ¨Æµ²ÎÊı£¬ÖØĞÂ¿ªÊ¼É¨Æµ
       goto rewind;
   }
   /*
@@ -752,7 +752,7 @@ rewind:
 
 /*
 =======================================
-    æ›´æ–° Mark ç‚¹ä½ç½®
+    ¸üĞÂ Mark µãÎ»ÖÃ
 =======================================
 */
 static void update_marker_index(void)
@@ -787,7 +787,7 @@ static void update_marker_index(void)
 
 /*
 =======================================
-    æ›´æ–°èµ·æ­¢é¢‘ç‡ä¿¡æ¯
+    ¸üĞÂÆğÖ¹ÆµÂÊĞÅÏ¢
 =======================================
 */
 void update_frequencies(void)
@@ -808,10 +808,10 @@ void update_frequencies(void)
   for (i = 0; i < sweep_points; i++)
     frequencies[i] = start + span * i / (sweep_points - 1) * 100;
 
-  if (cal_auto_interpolate) // æ ¡å‡†æ•°æ®å†…æ’
+  if (cal_auto_interpolate) // Ğ£×¼Êı¾İÄÚ²å
     cal_interpolate(0);
 
-  update_marker_index(); // æ›´æ–° Mark ç‚¹ä½ç½®
+  update_marker_index(); // ¸üĞÂ Mark µãÎ»ÖÃ
 
   frequency_updated = TRUE;
   // set grid layout
@@ -954,7 +954,7 @@ uint32_t get_sweep_frequency(int type)
 
 /*
 =======================================
-    å‘½ä»¤ï¼šæ‰«é¢‘
+    ÃüÁî£ºÉ¨Æµ
 =======================================
 */
 static void cmd_sweep(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1008,7 +1008,7 @@ static const CLI_Command_Definition_t x_cmd_sweep = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šæŸ¥çœ‹æ–‡ä»¶
+    ÃüÁî£º²é¿´ÎÄ¼ş
 =======================================
 */
 #if 0
@@ -1039,7 +1039,7 @@ static const CLI_Command_Definition_t x_cmd_list = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šå­˜å–æ–‡ä»¶
+    ÃüÁî£º´æÈ¡ÎÄ¼ş
 =======================================
 */
 #if 0
@@ -1101,7 +1101,7 @@ static const CLI_Command_Definition_t x_cmd_fatfs = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šè®¾ç½®èƒŒå…‰
+    ÃüÁî£ºÉèÖÃ±³¹â
 =======================================
 */
 static void cmd_pwm(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1118,7 +1118,7 @@ static void cmd_pwm(BaseSequentialStream *chp, int argc, char *argv[])
     duty = 0;
   if (duty > 1)
     duty = 1;
-  // __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 1999);  // å ç©ºæ¯” (2ms-1us)/2ms
+  // __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 1999);  // Õ¼¿Õ±È (2ms-1us)/2ms
   __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, (uint16_t)(2000*duty));
 }
 static const CLI_Command_Definition_t x_cmd_pwm = {
@@ -1126,7 +1126,7 @@ static const CLI_Command_Definition_t x_cmd_pwm = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šæµ‹è¯•BEEP
+    ÃüÁî£º²âÊÔBEEP
 =======================================
 */
 static void cmd_beep(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1153,7 +1153,7 @@ static const CLI_Command_Definition_t x_cmd_beep = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šLCD æµ‹è¯•
+    ÃüÁî£ºLCD ²âÊÔ
 =======================================
 */
 static void cmd_lcd(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1203,7 +1203,7 @@ static const CLI_Command_Definition_t x_cmd_lcd = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šä»»åŠ¡çŠ¶æ€
+    ÃüÁî£ºÈÎÎñ×´Ì¬
 =======================================
 */
 static void cmd_task(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1259,13 +1259,6 @@ static void eterm_copy(int dst, int src)
 }
 
 
-const struct open_model {
-  float c0;
-  float c1;
-  float c2;
-  float c3;
-} open_model = { 50, 0, -300, 27 };
-
 #if 0
 static void adjust_ed(void)
 {
@@ -1282,7 +1275,7 @@ static void adjust_ed(void)
   }
 }
 #endif
-// çŸ¢é‡ç½‘ç»œåˆ†æä»ªåäºŒé¡¹è¯¯å·®æ ¡æ­£æ¨¡å‹ç†è®ºæ¨å¯¼
+// Ê¸Á¿ÍøÂç·ÖÎöÒÇÊ®¶şÏîÎó²îĞ£ÕıÄ£ĞÍÀíÂÛÍÆµ¼
 // m -> measure
 // o -> open
 // s -> short
@@ -1301,7 +1294,7 @@ static void eterm_calc_es(void)
 {
   int i;
   for (i = 0; i < sweep_points; i++) {
-    // z=1/(jwc*z0) = 1/(2*pi*f*c*z0)  Note: normalized with Z0 normalized:å½’ä¸€åŒ–
+    // z=1/(jwc*z0) = 1/(2*pi*f*c*z0)  Note: normalized with Z0 normalized:¹éÒ»»¯
     // s11ao = (z-1)/(z+1) = (1-1/z)/(1+1/z) = (1-jwcz0)/(1+jwcz0)
     // prepare 1/s11ao for effeiciency
     float c = 50e-15;
@@ -1312,20 +1305,20 @@ static void eterm_calc_es(void)
     float s11aor = (1 - z*z) / sq;
     float s11aoi = 2*z / sq;
 
-    // S11moâ€™= S11mo - Ed
-    // S11msâ€™= S11ms - Ed
+    // S11mo¡¯= S11mo - Ed
+    // S11ms¡¯= S11ms - Ed
     float s11or = cal_data[CAL_OPEN][i][0] - cal_data[ETERM_ED][i][0];
     float s11oi = cal_data[CAL_OPEN][i][1] - cal_data[ETERM_ED][i][1];
     float s11sr = cal_data[CAL_SHORT][i][0] - cal_data[ETERM_ED][i][0];
     float s11si = cal_data[CAL_SHORT][i][1] - cal_data[ETERM_ED][i][1];
-    // Es = (S11mo'/s11ao + S11msâ€™)/(S11mo' - S11msâ€™)
+    // Es = (S11mo'/s11ao + S11ms¡¯)/(S11mo' - S11ms¡¯)
     float numr = s11sr + s11or * s11aor - s11oi * s11aoi;
     float numi = s11si + s11oi * s11aor + s11or * s11aoi;
     float denomr = s11or - s11sr;
     float denomi = s11oi - s11si;
     sq = denomr*denomr+denomi*denomi;
     cal_data[ETERM_ES][i][0] = (numr*denomr + numi*denomi)/sq;  // ETERM_ES = 1
-    cal_data[ETERM_ES][i][1] = (numi*denomr - numr*denomi)/sq;  // æ›¿æ¢ cal_data[CAL_OPEN]
+    cal_data[ETERM_ES][i][1] = (numi*denomr - numr*denomi)/sq;  // Ìæ»» cal_data[CAL_OPEN]
   }
   cal_status &= ~CALSTAT_OPEN;
   cal_status |= CALSTAT_ES;
@@ -1340,10 +1333,10 @@ static void eterm_calc_er(int sign)
   int i;
   for (i = 0; i < sweep_points; i++) {
     // Er = sign*(1-sign*Es)S11ms'
-    float s11sr = cal_data[CAL_SHORT][i][0] - cal_data[ETERM_ED][i][0];
-    float s11si = cal_data[CAL_SHORT][i][1] - cal_data[ETERM_ED][i][1];
-    float esr = cal_data[ETERM_ES][i][0];
-    float esi = cal_data[ETERM_ES][i][1];
+    float s11sr = cal_data[CAL_SHORT][i][REAL_PART] - cal_data[ETERM_ED][i][REAL_PART];
+    float s11si = cal_data[CAL_SHORT][i][IMAG_PART] - cal_data[ETERM_ED][i][IMAG_PART];
+    float esr = cal_data[ETERM_ES][i][REAL_PART];
+    float esi = cal_data[ETERM_ES][i][IMAG_PART];
     if (sign > 0) {
       esr = -esr;
       esi = -esi;
@@ -1355,8 +1348,8 @@ static void eterm_calc_er(int sign)
       err = -err;
       eri = -eri;
     }
-    cal_data[ETERM_ER][i][0] = err;  // ETERM_ER=2
-    cal_data[ETERM_ER][i][1] = eri;  // æ›¿æ¢ cal_data[CALSTAT_SHORT]
+    cal_data[ETERM_ER][i][REAL_PART] = err;  // ETERM_ER=2
+    cal_data[ETERM_ER][i][IMAG_PART] = eri;  // Ìæ»» cal_data[CALSTAT_SHORT]
     // cal_data[ETERM_ES][i][1] = 0;
   }
   cal_status &= ~CALSTAT_SHORT;
@@ -1379,7 +1372,7 @@ static void eterm_calc_et(void)
     float invr = etr / sq;
     float invi = -eti / sq;
     cal_data[ETERM_ET][i][0] = invr;  // ETERM_ET=3
-    cal_data[ETERM_ET][i][1] = invi;  // æ›¿æ¢ cal_data[CALSTAT_THRU]
+    cal_data[ETERM_ET][i][1] = invi;  // Ìæ»» cal_data[CALSTAT_THRU]
   }
   cal_status &= ~CALSTAT_THRU;
   cal_status |= CALSTAT_ET;
@@ -1428,7 +1421,7 @@ void apply_error_term_at(int i)
   float sq = err*err + eri*eri;
   float s11ar = (s11mr * err + s11mi * eri) / sq;
   float s11ai = (s11mi * err - s11mr * eri) / sq;
-  measured[0][i][0] = s11ar; // real æ ¡å‡†åå°„ç³»æ•°
+  measured[0][i][0] = s11ar; // real Ğ£×¼·´ÉäÏµÊı
   measured[0][i][1] = s11ai; // imag
 
   // CAUTION: Et is inversed for efficiency
@@ -1442,7 +1435,7 @@ void apply_error_term_at(int i)
   float eti = esr * cal_data[ETERM_ET][i][1] + esi * cal_data[ETERM_ET][i][0];
   float s21ar = s21mr * etr - s21mi * eti;
   float s21ai = s21mi * etr + s21mr * eti;
-  measured[1][i][0] = s21ar; // real æ ¡å‡†ä¼ è¾“ç³»æ•°
+  measured[1][i][0] = s21ar; // real Ğ£×¼´«ÊäÏµÊı
   measured[1][i][1] = s21ai; // imag
 }
 
@@ -1463,8 +1456,8 @@ void apply_edelay_at(int i)
 
 /*
 =======================================
-    æ‰§è¡Œæ ¡å‡†æ—¶ï¼Œå…ˆé‡‡é›†æ•°æ®ï¼Œå†æ ¡å‡†
-    measured æ‹·è´åˆ° cal_data
+    Ö´ĞĞĞ£×¼Ê±£¬ÏÈ²É¼¯Êı¾İ£¬ÔÙĞ£×¼
+    measured ¿½±´µ½ cal_data
 =======================================
 */
 void cal_collect(int type)
@@ -1473,29 +1466,29 @@ void cal_collect(int type)
   chMtxLock(&mutex);
 
   switch (type) {
-  case CAL_LOAD:  // é‡‡é›†åå°„ä¿¡å· Ed = S11ml; ç›´æ¥é‡‡é›† CAL_LOAD=ETERM_ED=0
+  case CAL_LOAD:  // ²É¼¯·´ÉäĞÅºÅ Ed = S11ml; Ö±½Ó²É¼¯ CAL_LOAD=ETERM_ED=0
     cal_status |= CALSTAT_LOAD;
     memcpy(cal_data[CAL_LOAD], measured[0], sizeof measured[0]);
     break;
 
-  case CAL_OPEN:  // é‡‡é›†åå°„ä¿¡å· S11mo-Ed =  Er/(1-Es)
+  case CAL_OPEN:  // ²É¼¯·´ÉäĞÅºÅ S11mo-Ed =  Er/(1-Es)
     cal_status |= CALSTAT_OPEN;
     cal_status &= ~(CALSTAT_ES|CALSTAT_APPLY);
     memcpy(cal_data[CAL_OPEN], measured[0], sizeof measured[0]);
     break;
 
-  case CAL_SHORT: // é‡‡é›†åå°„ä¿¡å· S11ms-Ed = -Er/(1+Es)
+  case CAL_SHORT: // ²É¼¯·´ÉäĞÅºÅ S11ms-Ed = -Er/(1+Es)
     cal_status |= CALSTAT_SHORT;
     cal_status &= ~(CALSTAT_ER|CALSTAT_APPLY);
     memcpy(cal_data[CAL_SHORT], measured[0], sizeof measured[0]);
     break;
 
-  case CAL_THRU:  // é‡‡é›†ä¼ è¾“ä¿¡å· Et = S21mt - Ex
+  case CAL_THRU:  // ²É¼¯´«ÊäĞÅºÅ Et = S21mt - Ex
     cal_status |= CALSTAT_THRU;
     memcpy(cal_data[CAL_THRU], measured[1], sizeof measured[0]);
     break;
 
-  case CAL_ISOLN: // é‡‡é›†ä¼ è¾“ä¿¡å· Ex = S21ml; ç›´æ¥é‡‡é›† CAL_ISOLN=ETERM_EX=4
+  case CAL_ISOLN: // ²É¼¯´«ÊäĞÅºÅ Ex = S21ml; Ö±½Ó²É¼¯ CAL_ISOLN=ETERM_EX=4
     cal_status |= CALSTAT_ISOLN;
     memcpy(cal_data[CAL_ISOLN], measured[1], sizeof measured[0]);
     break;
@@ -1505,34 +1498,34 @@ void cal_collect(int type)
 
 /*
 =======================================
-    è®¡ç®—æ ¡å‡†æ•°æ®
+    ¼ÆËãĞ£×¼Êı¾İ
 =======================================
 */
 void cal_done(void)
 {
   ensure_edit_config();
-  if (!(cal_status & CALSTAT_LOAD))  // Ed é»˜è®¤ç­‰äº S11mlï¼Œå¦‚æœæ²¡æœ‰ LOAD æ ¡å‡†ï¼Œåˆ™æ¸…ç©º Ed
+  if (!(cal_status & CALSTAT_LOAD))  // Ed Ä¬ÈÏµÈÓÚ S11ml£¬Èç¹ûÃ»ÓĞ LOAD Ğ£×¼£¬ÔòÇå¿Õ Ed
     eterm_set(ETERM_ED, 0.0, 0.0);
   //adjust_ed();
-  if ((cal_status & CALSTAT_SHORT) && (cal_status & CALSTAT_OPEN)) { // å¦‚æœæœ‰çŸ­è·¯æœ‰å¼€è·¯
-    eterm_calc_es();               // è®¡ç®— Es = (a+b)/(a-b)
-    eterm_calc_er(-1);             // è®¡ç®— Er = 2ab/(b-a)
-  } else if (cal_status & CALSTAT_OPEN) {    // å¦‚æœåªæœ‰å¼€è·¯
+  if ((cal_status & CALSTAT_SHORT) && (cal_status & CALSTAT_OPEN)) { // Èç¹ûÓĞ¶ÌÂ·ÓĞ¿ªÂ·
+    eterm_calc_es();               // ¼ÆËã Es = (a+b)/(a-b)
+    eterm_calc_er(-1);             // ¼ÆËã Er = 2ab/(b-a)
+  } else if (cal_status & CALSTAT_OPEN) {    // Èç¹ûÖ»ÓĞ¿ªÂ·
     eterm_copy(CAL_SHORT, CAL_OPEN);
     eterm_set(ETERM_ES, 0.0, 0.0);
     eterm_calc_er(1);
-  } else if (cal_status & CALSTAT_SHORT) {   // å¦‚æœåªæœ‰çŸ­è·¯
+  } else if (cal_status & CALSTAT_SHORT) {   // Èç¹ûÖ»ÓĞ¶ÌÂ·
     eterm_set(ETERM_ES, 0.0, 0.0);
     cal_status &= ~CALSTAT_SHORT;
     eterm_calc_er(-1);
   } else {
-    eterm_set(ETERM_ER, 1.0, 0.0);         // æ— çŸ­è·¯æ— å¼€è·¯
+    eterm_set(ETERM_ER, 1.0, 0.0);         // ÎŞ¶ÌÂ·ÎŞ¿ªÂ·
     eterm_set(ETERM_ES, 0.0, 0.0);
   }
 
-  if (!(cal_status & CALSTAT_ISOLN))         // Ex é»˜è®¤ç­‰äº S21mlï¼Œå¦‚æœæ²¡æœ‰éš”ç¦»ï¼Œåˆ™æ¸…ç©º Ex
+  if (!(cal_status & CALSTAT_ISOLN))         // Ex Ä¬ÈÏµÈÓÚ S21ml£¬Èç¹ûÃ»ÓĞ¸ôÀë£¬ÔòÇå¿Õ Ex
     eterm_set(ETERM_EX, 0.0, 0.0);         // 
-  if (cal_status & CALSTAT_THRU) {           // å¦‚æœæœ‰ç›´é€šï¼ŒEt = S21mt - Ex
+  if (cal_status & CALSTAT_THRU) {           // Èç¹ûÓĞÖ±Í¨£¬Et = S21mt - Ex
     eterm_calc_et();
   } else {
     eterm_set(ETERM_ET, 1.0, 0.0);
@@ -1543,7 +1536,7 @@ void cal_done(void)
 
 /*
 =======================================
-    æ ¡å‡†æ’å€¼ï¼Ÿ
+    Ğ£×¼²åÖµ£¿
 =======================================
 */
 void cal_interpolate(int s)
@@ -1605,7 +1598,7 @@ void cal_interpolate(int s)
 
 /*
 =======================================
-    å‘½ä»¤ï¼šæ ¡å‡†å‘½ä»¤
+    ÃüÁî£ºĞ£×¼ÃüÁî
 =======================================
 */
 static void cmd_cal(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1624,15 +1617,15 @@ static void cmd_cal(BaseSequentialStream *chp, int argc, char *argv[])
 
   char *cmd = argv[0];
   if (strcmp(cmd, "load") == 0) {
-    cal_collect(CAL_LOAD);    // è´Ÿè½½
+    cal_collect(CAL_LOAD);    // ¸ºÔØ
   } else if (strcmp(cmd, "open") == 0) {
-    cal_collect(CAL_OPEN);    // å¼€è·¯
+    cal_collect(CAL_OPEN);    // ¿ªÂ·
   } else if (strcmp(cmd, "short") == 0) {
-    cal_collect(CAL_SHORT);   // çŸ­è·¯
+    cal_collect(CAL_SHORT);   // ¶ÌÂ·
   } else if (strcmp(cmd, "thru") == 0) {
-    cal_collect(CAL_THRU);    // ç›´é€š
+    cal_collect(CAL_THRU);    // Ö±Í¨
   } else if (strcmp(cmd, "isoln") == 0) {
-    cal_collect(CAL_ISOLN);   // éš”ç¦»
+    cal_collect(CAL_ISOLN);   // ¸ôÀë
   } else if (strcmp(cmd, "done") == 0) {
     cal_done();
     draw_cal_status();
@@ -1673,7 +1666,7 @@ static const CLI_Command_Definition_t x_cmd_cal = {
 
 /*
 =======================================
-    å‘½ä»¤ï¼šå‚æ•°ä¿å­˜
+    ÃüÁî£º²ÎÊı±£´æ
 =======================================
 */
 static void cmd_save(BaseSequentialStream *chp, int argc, char *argv[])
@@ -1725,7 +1718,7 @@ usage:
 static const CLI_Command_Definition_t x_cmd_recall = {
 "recall", "usage: recall {id}\r\n", (shellcmd_t)cmd_recall, -1};
 
-// å¹…é¢‘å›¾/ç›¸é¢‘å›¾/ç¾¤æ—¶å»¶/å²å¯†æ–¯å›¾/æåæ ‡å›¾/å¹…é¢‘å›¾/é©»æ³¢æ¯”
+// ·ùÆµÍ¼/ÏàÆµÍ¼/ÈºÊ±ÑÓ/Ê·ÃÜË¹Í¼/¼«×ø±êÍ¼/·ùÆµÍ¼/×¤²¨±È
 const char *trc_type_name[] = {
   "LOGMAG", "PHASE", "DELAY", "SMITH", "POLAR", "LINEAR", "SWR"
 };
@@ -2211,23 +2204,23 @@ static void cmd_port(BaseSequentialStream *chp, int argc, char *argv[])
   }
   port = atoi(argv[0]);
   if (port == 1)
-    tlv320aic3204_select_in3(); // åå°„
+    tlv320aic3204_select_in3(); // ·´Éä
   else
-    tlv320aic3204_select_in1(); // ä¼ è¾“
+    tlv320aic3204_select_in1(); // ´«Êä
 }
 static const CLI_Command_Definition_t x_cmd_port = {
 "port", "usage: port {1:S11 2:S21}\r\n", (shellcmd_t)cmd_port, -1};
 
 /*
 =======================================
-    APP åˆå§‹åŒ–
+    APP ³õÊ¼»¯
 =======================================
 */
 void app_init(void)
 {
-  /* é€’å½’é” Recursive Mutex
-     äºŒè€…å”¯ä¸€çš„åŒºåˆ«æ˜¯ï¼ŒåŒä¸€ä¸ªçº¿ç¨‹å¯ä»¥å¤šæ¬¡è·å–åŒä¸€ä¸ªé€’å½’é”ï¼Œä¸ä¼šäº§ç”Ÿæ­»é”ã€‚
-     è€Œå¦‚æœä¸€ä¸ªçº¿ç¨‹å¤šæ¬¡è·å–åŒä¸€ä¸ªéé€’å½’é”ï¼Œåˆ™ä¼šäº§ç”Ÿæ­»é”ã€‚
+  /* µİ¹éËø Recursive Mutex
+     ¶şÕßÎ¨Ò»µÄÇø±ğÊÇ£¬Í¬Ò»¸öÏß³Ì¿ÉÒÔ¶à´Î»ñÈ¡Í¬Ò»¸öµİ¹éËø£¬²»»á²úÉúËÀËø¡£
+     ¶øÈç¹ûÒ»¸öÏß³Ì¶à´Î»ñÈ¡Í¬Ò»¸ö·Çµİ¹éËø£¬Ôò»á²úÉúËÀËø¡£
   */
   mutex = xSemaphoreCreateRecursiveMutex();
   configASSERT( mutex );
@@ -2238,7 +2231,7 @@ void app_init(void)
   osDelay(5);    //
   CTP_RST_H();
 
-  /* æ£€æŸ¥æ‰€æœ‰ I2C è®¾å¤‡ */
+  /* ¼ì²éËùÓĞ I2C Éè±¸ */
   si5351_init();
 
   AIC_RESET_L;
@@ -2247,7 +2240,7 @@ void app_init(void)
   osDelay(5);
   tlv320aic3204_init_slave();
 
-  /* LCD åˆå§‹åŒ– */
+  /* LCD ³õÊ¼»¯ */
   nt35510_init();
   osDelay(100);    //
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
@@ -2260,10 +2253,10 @@ void app_init(void)
   /*
    * Initialize graph plotting
    */
-  plot_init();  // uint16_t markmap[2][8] å…¨ 0xFF
+  plot_init();  // uint16_t markmap[2][8] È« 0xFF
 
   /* restore config */
-  config_recall();  // é‡è½½é…ç½®ï¼Œå¦‚æœæœ‰çš„è¯
+  config_recall();  // ÖØÔØÅäÖÃ£¬Èç¹ûÓĞµÄ»°
 
   // DAC Start
 
@@ -2276,7 +2269,7 @@ void app_init(void)
 
   redraw_frame();
 
-  /* å¼€å§‹ I2S æ¥æ”¶ */
+  /* ¿ªÊ¼ I2S ½ÓÊÕ */
   if (HAL_I2S_Receive_DMA(&hi2s2, (uint16_t *)rx_buffer, AUDIO_BUFFER_LEN*2) != HAL_OK)
   {
     Error_Handler();
@@ -2301,7 +2294,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 
 /*
 =======================================
-    æ³¨å†Œå‘½ä»¤
+    ×¢²áÃüÁî
 =======================================
 */
 void cmd_register( void )
